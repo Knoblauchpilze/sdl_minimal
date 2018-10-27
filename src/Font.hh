@@ -3,7 +3,7 @@
 
 # include <memory>
 # include <unordered_map>
-# include <SDL/SDL_ttf.h>
+# include <SDL2/SDL_ttf.h>
 
 namespace sdl {
   namespace core {

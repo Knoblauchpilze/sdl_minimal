@@ -1,6 +1,6 @@
 
 # include <iostream>
-# include <SDL/SDL_ttf.h>
+# include <SDL2/SDL_ttf.h>
 
 # include "FontException.hh"
 # include "SdlException.hh"

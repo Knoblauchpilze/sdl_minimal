@@ -1,6 +1,31 @@
-cmake_minimum_required(VERSION 3.1)
+project (sdl_core)
 
-set (CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMakeModules")
+set (CMAKE_CXX_STANDARD 14)
 
-add_subdirectory(app)
-add_subdirectory(view)
+#set (CMAKE_VERBOSE_MAKEFILE ON)
+set (CMAKE_POSITION_INDEPENDENT_CODE ON)
+
+find_package (SDL2 REQUIRED)
+find_package (SDL2_ttf REQUIRED)
+
+set (SOURCES
+  Font.cc
+  )
+
+add_library (sdl_core SHARED
+  ${SOURCES}
+  ${SDL2_INCLUDE_DIRS}
+  ${SDL2_TTF_INCLUDE_DIRS}
+  )
+
+set(SDL_CORE_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}" PARENT_SCOPE)
+
+target_link_libraries(sdl_core
+  ${SDL2_LIBRARY}
+  ${SDL2_TTF_LIBRARIES}
+  )
+
+target_include_directories (sdl_core PUBLIC
+  ${CMAKE_CURRENT_SOURCE_DIR}
+  )
+
