@@ -10,11 +10,12 @@ find_package (SDL2_ttf REQUIRED)
 
 set (SOURCES
   Font.cc
+  BasicSdlView.cc
   )
 
 add_library (sdl_core SHARED
   ${SOURCES}
-  ${SDL2_INCLUDE_DIRS}
+  ${SDL2_INCLUDE_DIR}
   ${SDL2_TTF_INCLUDE_DIRS}
   )
 
@@ -27,5 +28,7 @@ target_link_libraries(sdl_core
 
 target_include_directories (sdl_core PUBLIC
   ${CMAKE_CURRENT_SOURCE_DIR}
+  ${SDL2_INCLUDE_DIR}
+  ${SDL2_TTF_INCLUDE_DIRS}
   )
 
