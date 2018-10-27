@@ -2,13 +2,31 @@
 # include <iostream>
 # include <SDL2/SDL_ttf.h>
 
-# include "FontException.hh"
+# include "SdlApplication.hh"
 # include "SdlException.hh"
+# include "FontException.hh"
 
 int main(int argc, char* argv[])
 {
   // Run the application.
+
+  if (SDL_Init(SDL_INIT_VIDEO) != 0) {
+    std::cerr << "[MAIN] Could not initialize sdl video mode (err: \"" << SDL_GetError() << "\")" << std::endl;
+    return EXIT_FAILURE;
+  }
+
   try {
+    sdl::core::BasicSdlWindowShPtr app = std::make_shared<sdl::core::SdlApplication>(
+      std::string("This is SPARTA !"),
+      std::string("data/img/65px-Stop_hand.BMP"),
+      640,
+      480,
+      1.0f,
+      2.0f
+    );
+    app->run();
+
+    std::cout << "[MAIN] App stopped" << std::endl;
   }
   catch (const sdl::core::FontException& e) {
     std::cerr << "[MAIN] Caught exception:" << std::endl << e.what() << std::endl;
@@ -26,5 +44,5 @@ int main(int argc, char* argv[])
   }
 
   // All is good.
-  return 0;
+  return EXIT_SUCCESS;
 }

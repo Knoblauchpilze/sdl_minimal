@@ -10,7 +10,8 @@ find_package (SDL2_ttf REQUIRED)
 
 set (SOURCES
   Font.cc
-  BasicSdlView.cc
+  SdlApplication.cc
+  SdlEventHandler.cc
   )
 
 add_library (sdl_core SHARED

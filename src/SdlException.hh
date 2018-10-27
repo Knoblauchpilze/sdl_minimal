@@ -26,6 +26,6 @@ namespace sdl {
   }
 }
 
-# include "SdlException.hh"
+# include "SdlException.hxx"
 
 #endif    /* SDLEXCEPTION_HH */
