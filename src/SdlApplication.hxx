@@ -1,10 +1,9 @@
 #ifndef    SDLAPPLICATION_HXX
 # define   SDLAPPLICATION_HXX
 
+# include <iostream>
 # include "SdlException.hh"
 # include "SdlApplication.hh"
-
-# include <iostream>
 
 namespace sdl {
   namespace core {
@@ -123,6 +122,13 @@ namespace sdl {
           SDL_Delay(remainingDuration);
         }
       }
+    }
+
+    inline
+    void
+    SdlApplication::onQuitEvent(const SDL_QuitEvent& event) {
+      std::lock_guard<std::mutex> guard(m_locker);
+      m_renderingRunning = false;
     }
 
   }

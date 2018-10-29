@@ -21,8 +21,8 @@ int main(int argc, char* argv[])
       std::string("data/img/65px-Stop_hand.BMP"),
       640,
       480,
-      1.0f,
-      2.0f
+      60.0f,
+      30.0f
     );
     app->run();
 

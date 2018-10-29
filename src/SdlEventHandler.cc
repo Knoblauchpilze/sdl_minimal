@@ -1,7 +1,6 @@
 
-# include "SdlEventHandler.hh"
-
 # include <iostream>
+# include "SdlEventHandler.hh"
 
 namespace sdl {
   namespace core {
@@ -12,7 +11,9 @@ namespace sdl {
 
       m_eventsRunning(false),
       m_locker(),
-      m_executionThread(nullptr)
+      m_executionThread(nullptr),
+
+      m_listeners()
     {}
 
     SdlEventHandler::~SdlEventHandler() {

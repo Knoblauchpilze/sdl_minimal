@@ -12,6 +12,7 @@ set (SOURCES
   Font.cc
   SdlApplication.cc
   SdlEventHandler.cc
+  SdlEventListener.cc
   )
 
 add_library (sdl_core SHARED

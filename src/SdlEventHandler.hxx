@@ -4,8 +4,6 @@
 # include "SdlException.hh"
 # include "SdlEventHandler.hh"
 
-# include <iostream>
-
 namespace sdl {
   namespace core {
 
@@ -28,8 +26,9 @@ namespace sdl {
     SdlEventHandler::stop() {
       lock();
       if (m_executionThread == nullptr) {
+        // No need to do anything, process not started.
         unlock();
-        throw SdlException(std::string("Cannot stop event handling, process not yet started"));
+        return;
       }
 
       m_eventsRunning = false;
@@ -50,6 +49,28 @@ namespace sdl {
 
     inline
     void
+    SdlEventHandler::addListener(SdlEventListener* listener) {
+      if (listener == nullptr) {
+        throw SdlException(std::string("Cannot add null event listener"));
+      }
+      m_listeners.push_back(listener);
+    }
+
+    inline
+    void
+    SdlEventHandler::removeListener(SdlEventListener* listener) {
+      if (listener == nullptr) {
+        throw SdlException(std::string("Cannot remove null event listener"));
+      }
+      std::remove_if(m_listeners.begin(), m_listeners.end(),
+        [&listener](SdlEventListener* internalListener) {
+          return &*(listener) == &(*internalListener);
+        }
+      );
+    }
+
+    inline
+    void
     SdlEventHandler::lock() {
       m_locker.lock();
     }
@@ -62,32 +83,79 @@ namespace sdl {
 
     inline
     void
-    SdlEventHandler::processKeyPressedEvent(const SDL_KeyboardEvent& event) {}
+    SdlEventHandler::processKeyPressedEvent(const SDL_KeyboardEvent& event) {
+      for (std::vector<SdlEventListener*>::iterator listener = m_listeners.begin() ;
+           listener != m_listeners.end() ;
+           ++listener)
+      {
+        (*listener)->onKeyPressedEvent(event);
+      }
+    }
 
     inline
     void
-    SdlEventHandler::processKeyReleasedEvent(const SDL_KeyboardEvent& event) {}
+    SdlEventHandler::processKeyReleasedEvent(const SDL_KeyboardEvent& event) {
+      for (std::vector<SdlEventListener*>::iterator listener = m_listeners.begin() ;
+           listener != m_listeners.end() ;
+           ++listener)
+      {
+        (*listener)->onKeyReleasedEvent(event);
+      }
+    }
 
     inline
     void
-    SdlEventHandler::processMouseMotionEvent(const SDL_MouseMotionEvent& event) {}
+    SdlEventHandler::processMouseMotionEvent(const SDL_MouseMotionEvent& event) {
+      for (std::vector<SdlEventListener*>::iterator listener = m_listeners.begin() ;
+           listener != m_listeners.end() ;
+           ++listener)
+      {
+        (*listener)->onMouseMotionEvent(event);
+      }
+    }
 
     inline
     void
-    SdlEventHandler::processMouseButtonPressedEvent(const SDL_MouseButtonEvent& event) {}
+    SdlEventHandler::processMouseButtonPressedEvent(const SDL_MouseButtonEvent& event) {
+      for (std::vector<SdlEventListener*>::iterator listener = m_listeners.begin() ;
+           listener != m_listeners.end() ;
+           ++listener)
+      {
+        (*listener)->onMouseButtonPressedEvent(event);
+      }
+    }
 
     inline
     void
-    SdlEventHandler::processMouseButtonReleasedEvent(const SDL_MouseButtonEvent& event) {}
+    SdlEventHandler::processMouseButtonReleasedEvent(const SDL_MouseButtonEvent& event) {
+      for (std::vector<SdlEventListener*>::iterator listener = m_listeners.begin() ;
+           listener != m_listeners.end() ;
+           ++listener)
+      {
+        (*listener)->onMouseButtonReleasedEvent(event);
+      }
+    }
 
     inline
     void
-    SdlEventHandler::processMouseWheelEvent(const SDL_MouseWheelEvent& event) {}
+    SdlEventHandler::processMouseWheelEvent(const SDL_MouseWheelEvent& event) {
+      for (std::vector<SdlEventListener*>::iterator listener = m_listeners.begin() ;
+           listener != m_listeners.end() ;
+           ++listener)
+      {
+        (*listener)->onMouseWheelEvent(event);
+      }
+    }
 
     inline
     void
     SdlEventHandler::processQuitEvent(const SDL_QuitEvent& event) {
-      std::cout << "[EVN] Quit" << std::endl;
+      for (std::vector<SdlEventListener*>::iterator listener = m_listeners.begin() ;
+           listener != m_listeners.end() ;
+           ++listener)
+      {
+        (*listener)->onQuitEvent(event);
+      }
     }
 
   }

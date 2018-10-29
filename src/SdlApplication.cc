@@ -5,11 +5,12 @@ namespace sdl {
   namespace core {
 
     SdlApplication::SdlApplication(const std::string& title,
-                               const std::string& icon,
-                               const int& width,
-                               const int& height,
-                               const float& framerate,
-                               const float& eventFramerate):
+                                   const std::string& icon,
+                                   const int& width,
+                                   const int& height,
+                                   const float& framerate,
+                                   const float& eventFramerate):
+      SdlEventListener(SdlEventListener::Interaction::FullInteraction),
       m_title(title),
       m_icon(),
       m_framerate(std::max(0.1f, framerate)),
@@ -22,6 +23,7 @@ namespace sdl {
     {
       createWindow(width, height);
       setIcon(icon);
+      m_eventsHandler.addListener(this);
     }
 
     void

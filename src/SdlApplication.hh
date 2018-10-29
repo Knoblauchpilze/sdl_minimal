@@ -6,20 +6,21 @@
 # include <mutex>
 # include <SDL2/SDL.h>
 # include "SdlEventHandler.hh"
+# include "SdlEventListener.hh"
 
 namespace sdl {
   namespace core {
 
-    class SdlApplication {
+    class SdlApplication : public SdlEventListener {
       public:
 
         explicit
         SdlApplication(const std::string& title,
-                     const std::string& icon,
-                     const int& width = 640,
-                     const int& height = 480,
-                     const float& framerate = 60.0f,
-                     const float& eventFramerate = 30.0f);
+                       const std::string& icon,
+                       const int& width = 640,
+                       const int& height = 480,
+                       const float& framerate = 60.0f,
+                       const float& eventFramerate = 30.0f);
 
         virtual ~SdlApplication();
 
@@ -37,6 +38,9 @@ namespace sdl {
 
         void
         run();
+
+        void
+        onQuitEvent(const SDL_QuitEvent& event) override;
 
       private:
 
