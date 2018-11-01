@@ -27,7 +27,7 @@ namespace sdl {
     inline
     Vector2<CoordinateType>&
     Vector2<CoordinateType>::operator=(const Vector2<CoordinateType>& other) noexcept {
-      if (other != *this) noexcept {
+      if (other != *this) {
         m_x = x;
         m_y = y;
       }
@@ -36,14 +36,14 @@ namespace sdl {
 
     template <typename CoordinateType>
     inline
-    float&
+    CoordinateType&
     Vector2<CoordinateType>::x() noexcept {
       return m_x;
     }
 
     template <typename CoordinateType>
     inline
-    const float&
+    const CoordinateType&
     Vector2<CoordinateType>::x() const noexcept {
       return m_x;
     }
@@ -51,20 +51,20 @@ namespace sdl {
     template <typename CoordinateType>
     inline
     void
-    Vector2<CoordinateType>::setX(const float& x) noexcept {
+    Vector2<CoordinateType>::setX(const CoordinateType& x) noexcept {
       m_x = x;
     }
 
     template <typename CoordinateType>
     inline
-    float&
+    CoordinateType&
     Vector2<CoordinateType>::y() noexcept {
       return m_y;
     }
 
     template <typename CoordinateType>
     inline
-    const float&
+    const CoordinateType&
     Vector2<CoordinateType>::y() const noexcept {
       return m_y;
     }
@@ -72,20 +72,20 @@ namespace sdl {
     template <typename CoordinateType>
     inline
     void
-    Vector2<CoordinateType>::setY(const float& y) noexcept {
+    Vector2<CoordinateType>::setY(const CoordinateType& y) noexcept {
       m_y = y;
     }
 
     template <typename CoordinateType>
     inline
-    float
+    CoordinateType
     Vector2<CoordinateType>::length() const noexcept {
       return std::sqrt(lengthSquared());
     }
 
     template <typename CoordinateType>
     inline
-    float
+    CoordinateType
     Vector2<CoordinateType>::lengthSquared() const noexcept {
       return m_x * m_x + m_y * m_y;
     }
@@ -95,7 +95,7 @@ namespace sdl {
     CoordinateType
     Vector2<CoordinateType>::normalize() noexcept {
       const CoordinateType thisLength = length();
-      if (!comparison::fuzzyEqual(thisLength, CoordinateType())) noexcept {
+      if (!fuzzyEqual(thisLength, CoordinateType())) {
         m_x /= thisLength;
         m_y /= thisLength;
       }
@@ -121,8 +121,8 @@ namespace sdl {
     inline
     bool
     Vector2<CoordinateType>::operator==(const Vector2<CoordinateType>& other) const noexcept {
-      return (comparison::fuzzyEauql(m_x, other.m_x) &&
-              comparison::fuzzyEqual(m_y, other.m_y));
+      return (fuzzyEqual(m_x, other.m_x) &&
+              fuzzyEqual(m_y, other.m_y));
     }
 
     template <typename CoordinateType>
@@ -180,7 +180,7 @@ namespace sdl {
     template <typename CoordinateType>
     inline
     Vector2<CoordinateType>
-    Vector2<CoordinateType>::operator*(const float& scale) const noexcept {
+    Vector2<CoordinateType>::operator*(const CoordinateType& scale) const noexcept {
       Vector2<CoordinateType> multiply(*this);
       multiply.m_x *= scale;
       multiply.m_y *= scale;
@@ -190,7 +190,7 @@ namespace sdl {
     template <typename CoordinateType>
     inline
     Vector2<CoordinateType>&
-    Vector2<CoordinateType>::operator*=(const float& scale) noexcept {
+    Vector2<CoordinateType>::operator*=(const CoordinateType& scale) noexcept {
         m_x *= scale;
         m_y *= scale;
         return *this;
@@ -199,7 +199,7 @@ namespace sdl {
     template <typename CoordinateType>
     inline
     Vector2<CoordinateType>
-    Vector2<CoordinateType>::operator/(const float& scale) const noexcept {
+    Vector2<CoordinateType>::operator/(const CoordinateType& scale) const noexcept {
       Vector2<CoordinateType> divide(*this);
       divide.m_x /= scale;
       divide.m_y /= scale;
@@ -209,7 +209,7 @@ namespace sdl {
     template <typename CoordinateType>
     inline
     Vector2<CoordinateType>&
-    Vector2<CoordinateType>::operator/=(const float& scale) noexcept {
+    Vector2<CoordinateType>::operator/=(const CoordinateType& scale) noexcept {
       m_x /= scale;
       m_y /= scale;
       return *this;
@@ -217,7 +217,7 @@ namespace sdl {
 
     template <typename CoordinateType>
     inline
-    Vector2<CoordinateType>
+    CoordinateType
     Vector2<CoordinateType>::operator^(const Vector2<CoordinateType>& other) const noexcept {
         return m_x * other.m_y - m_y * other.m_x;
     }
@@ -226,21 +226,21 @@ namespace sdl {
     template <typename CoordinateType>
     inline
     Vector2<CoordinateType>
-    operator*(const CoordinateType& scale, const Vector2<CoordinateType>& vector) {
+    operator*(const CoordinateType& scale, const Vector2<CoordinateType>& vector) noexcept {
       return vector * scale;
     }
 
     template <typename CoordinateType>
     inline
     std::ostream&
-    operator<<(const Vector2<CoordinateType>& vec, std::ostream& out) {
+    operator<<(const Vector2<CoordinateType>& vec, std::ostream& out) noexcept {
       return operator<<(out, vec);
     }
 
     template <typename CoordinateType>
     inline
     std::ostream&
-    operator<<(std::ostream& out, const Vector2<CoordinateType>& vec) {
+    operator<<(std::ostream& out, const Vector2<CoordinateType>& vec) noexcept {
       out << vec.x() << "x" << vec.y();
       return out;
     }

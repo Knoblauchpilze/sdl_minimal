@@ -19,7 +19,11 @@ namespace sdl {
       m_renderer(nullptr),
       m_eventsHandler(eventFramerate),
 
-      m_renderingRunning(false)
+      m_renderingRunning(false),
+      m_locker(),
+
+      m_widgets(),
+      m_widgetsLocker()
     {
       createWindow(width, height);
       setIcon(icon);

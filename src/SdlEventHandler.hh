@@ -83,6 +83,7 @@ namespace sdl {
         std::shared_ptr<std::thread> m_executionThread;
 
         std::vector<SdlEventListener*> m_listeners;
+        std::mutex m_listenersLocker;
     };
 
     using SdlEventHandlerShPtr = std::shared_ptr<SdlEventHandler>;

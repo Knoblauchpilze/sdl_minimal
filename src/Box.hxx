@@ -11,21 +11,12 @@ namespace sdl {
     Box<CoordinateType>::Box(const CoordinateType& x,
                              const CoordinateType& y,
                              const CoordinateType& width,
-                             const CoordinateType& height,
-                             const Base& base):
-      m_type(type)
+                             const CoordinateType& height) noexcept :
       m_x(x),
       m_y(y),
       m_w(width),
       m_h(height)
     {}
-
-    template <typename CoordinateType>
-    inline
-    const Box<CoordinateType>::Base&
-    Box<CoordinateType>::type() const noexcept {
-      return m_type;
-    }
 
     template <typename CoordinateType>
     inline
@@ -79,7 +70,7 @@ namespace sdl {
     template <typename CoordinateType>
     inline
     const CoordinateType&
-    Box<CoordinateType>::h() const {
+    Box<CoordinateType>::h() const noexcept {
       return m_h;
     }
 
@@ -87,63 +78,63 @@ namespace sdl {
     inline
     CoordinateType
     Box<CoordinateType>::getLeftBound() const noexcept {
-      return m_x - m_w / 2.0f;
+      return m_x - m_w / CoordinateType(2.0f);
     }
 
     template <typename CoordinateType>
     inline
     CoordinateType
     Box<CoordinateType>::getRightBound() const noexcept {
-      return m_x + m_w / 2.0f;
+      return m_x + m_w / CoordinateType(2.0f);
     }
 
     template <typename CoordinateType>
     inline
     CoordinateType
     Box<CoordinateType>::getTopBound() const noexcept {
-      return m_y + m_h / 2.0f;
+      return m_y + m_h / CoordinateType(2.0f);
     }
 
     template <typename CoordinateType>
     inline
     CoordinateType
     Box<CoordinateType>::getBottomBound() const noexcept {
-      return m_y - m_h / 2.0f;
+      return m_y - m_h / CoordinateType(2.0f);
     }
 
     template <typename CoordinateType>
     inline
     Vector2<CoordinateType>
     Box<CoordinateType>::getCenter() const noexcept {
-        return utils::Vector2f(m_x, m_y);
+        return Vector2<CoordinateType>(m_x, m_y);
     }
 
     template <typename CoordinateType>
     inline
     Vector2<CoordinateType>
-    Box<CoordinateType>::getTopLeftCorner() const {
-        return utils::Vector2f(m_x - m_w / 2.0f, m_y + m_h / 2.0f);
+    Box<CoordinateType>::getTopLeftCorner() const noexcept {
+        return Vector2<CoordinateType>(m_x - m_w / CoordinateType(2.0f), m_y + m_h / CoordinateType(2.0f));
     }
 
     template <typename CoordinateType>
     inline
     Vector2<CoordinateType>
-    Box<CoordinateType>::getTopRightCorner() const {
-        return utils::Vector2f(m_x + m_w / 2.0f, m_y + m_h / 2.0f);
+    Box<CoordinateType>::getTopRightCorner() const noexcept {
+        return Vector2<CoordinateType>(m_x + m_w / CoordinateType(2.0f), m_y + m_h / CoordinateType(2.0f));
     }
 
     template <typename CoordinateType>
     inline
     Vector2<CoordinateType>
-    Box<CoordinateType>::getBottomRightCorner() const {
-        return utils::Vector2f(m_x + m_w / 2.0f, m_y - m_h / 2.0f);
+    Box<CoordinateType>::getBottomRightCorner() const noexcept {
+        return Vector2<CoordinateType>(m_x + m_w / CoordinateType(2.0f), m_y - m_h / CoordinateType(2.0f));
     }
 
     template <typename CoordinateType>
     inline
     Vector2<CoordinateType>
-    Box<CoordinateType>::getBottomLeftCorner() const {
-        return utils::Vector2f(m_x - m_w / 2.0f, m_y - m_h / 2.0f);
+    Box<CoordinateType>::getBottomLeftCorner() const noexcept {
+        return Vector2<CoordinateType>(m_x - m_w / CoordinateType(2.0f), m_y - m_h / CoordinateType(2.0f));
     }
 
     template <typename CoordinateType>
@@ -183,7 +174,7 @@ namespace sdl {
     template <typename CoordinateType>
     inline
     bool
-    Box<CoordinateType>::isInside(const Vector2<CoordinateType>& point, const bool strict) const noexcept {
+    Box<CoordinateType>::isInside(const Vector2<CoordinateType>& point) const noexcept {
       return getLeftBound() <= point.x() &&
              getRightBound() >= point.x() &&
              getBottomBound() <= point.y() &&
@@ -193,7 +184,7 @@ namespace sdl {
     template <typename CoordinateType>
     inline
     Vector2<CoordinateType>
-    Box<CoordinateType>::getNearestPoint(const Vector2<CoordinateType>& point) const {
+    Box<CoordinateType>::getNearestPoint(const Vector2<CoordinateType>& point) const noexcept {
       return Vector2<CoordinateType>(
         getLeftBound() > point.x() ? getLeftBound() : (getRightBound() < point.x() ? getRightBound() : point.x()),
         getBottomBound() > point.y() ? getBottomBound() : (getTopBound() < point.y() ? getTopBound() : point.y())
@@ -203,7 +194,7 @@ namespace sdl {
     template <typename CoordinateType>
     inline
     SDL_Rect
-    Box<CoordinateType>::toSDLRect() {
+    Box<CoordinateType>::toSDLRect() const noexcept {
       return SDL_Rect{
         static_cast<int>(getLeftBound()),
         static_cast<int>(getTopBound()),

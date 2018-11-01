@@ -5,6 +5,7 @@
 # include <vector>
 # include <mutex>
 # include <SDL2/SDL.h>
+# include "SdlWidget.hh"
 # include "SdlEventHandler.hh"
 # include "SdlEventListener.hh"
 
@@ -42,6 +43,12 @@ namespace sdl {
         void
         onQuitEvent(const SDL_QuitEvent& event) override;
 
+        void
+        addWidget(SdlWidget* widget);
+
+        void
+        removeWidget(SdlWidget* widget);
+
       private:
 
         void
@@ -62,6 +69,12 @@ namespace sdl {
         void
         render();
 
+        void
+        renderWidgets();
+
+        void
+        drawTexture(SDL_Texture* texture, SDL_Rect* srcArea, SDL_Rect* dstArea);
+
       private:
 
         std::string m_title;
@@ -74,6 +87,9 @@ namespace sdl {
 
         bool m_renderingRunning;
         std::mutex m_locker;
+
+        std::vector<SdlWidget*> m_widgets;
+        std::mutex m_widgetsLocker;
     };
 
     using BasicSdlWindowShPtr = std::shared_ptr<SdlApplication>;

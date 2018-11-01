@@ -1,7 +1,8 @@
 #ifndef    BOX_HH
 # define   BOX_HH
 
-# include "Vector2f.h"
+# include <SDL2/SDL.h>
+# include "Vector2.hh"
 
 namespace sdl {
   namespace utils {
@@ -22,9 +23,6 @@ namespace sdl {
             const CoordinateType& y = CoordinateType(),
             const CoordinateType& width = CoordinateType(),
             const CoordinateType& height = CoordinateType()) noexcept;
-
-        const Base&
-        type() const noexcept;
 
         CoordinateType&
         x() noexcept;
@@ -65,7 +63,7 @@ namespace sdl {
         Vector2<CoordinateType>
         getCenter() const noexcept;
 
-        Vector<CoordinateType>
+        Vector2<CoordinateType>
         getTopLeftCorner() const noexcept;
 
         Vector2<CoordinateType>
@@ -128,8 +126,6 @@ namespace sdl {
         toSDLRect() const noexcept;
 
       private:
-
-        Base m_type;
 
         CoordinateType m_x;
         CoordinateType m_y;

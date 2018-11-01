@@ -53,6 +53,7 @@ namespace sdl {
       if (listener == nullptr) {
         throw SdlException(std::string("Cannot add null event listener"));
       }
+      std::lock_guard<std::mutex> guard(m_listenersLocker);
       m_listeners.push_back(listener);
     }
 
@@ -62,6 +63,7 @@ namespace sdl {
       if (listener == nullptr) {
         throw SdlException(std::string("Cannot remove null event listener"));
       }
+      std::lock_guard<std::mutex> guard(m_listenersLocker);
       std::remove_if(m_listeners.begin(), m_listeners.end(),
         [&listener](SdlEventListener* internalListener) {
           return &*(listener) == &(*internalListener);

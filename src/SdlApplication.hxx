@@ -79,6 +79,37 @@ namespace sdl {
 
     inline
     void
+    SdlApplication::onQuitEvent(const SDL_QuitEvent& event) {
+      std::lock_guard<std::mutex> guard(m_locker);
+      m_renderingRunning = false;
+    }
+
+    inline
+    void
+    SdlApplication::addWidget(SdlWidget* widget) {
+      if (widget == nullptr) {
+        throw SdlException(std::string("Cannot add null widget"));
+      }
+      std::lock_guard<std::mutex> guard(m_widgetsLocker);
+      m_widgets.push_back(widget);
+    }
+
+    inline
+    void
+    SdlApplication::removeWidget(SdlWidget* widget) {
+      if (widget == nullptr) {
+        throw SdlException(std::string("Cannot remove null widget"));
+      }
+      std::lock_guard<std::mutex> guard(m_widgetsLocker);
+      std::remove_if(m_widgets.begin(), m_widgets.end(),
+        [&widget](SdlWidget* internalWidget) {
+          return &*(widget) == &(*internalWidget);
+        }
+      );
+    }
+
+    inline
+    void
     SdlApplication::initializeSdlLib() const {
       if (SDL_WasInit(SDL_INIT_VIDEO) != 0) {
         return;
@@ -106,9 +137,9 @@ namespace sdl {
     void
     SdlApplication::render() {
       const unsigned int startingRenderingTime = SDL_GetTicks();
-      std::cout << "[APP] Performing rendering" << std::endl;
 
       SDL_RenderClear(m_renderer);
+      renderWidgets();
       SDL_RenderPresent(m_renderer);
 
       const unsigned int renderingDuration = SDL_GetTicks() - startingRenderingTime;
@@ -126,9 +157,33 @@ namespace sdl {
 
     inline
     void
-    SdlApplication::onQuitEvent(const SDL_QuitEvent& event) {
-      std::lock_guard<std::mutex> guard(m_locker);
-      m_renderingRunning = false;
+    SdlApplication::renderWidgets() {
+      std::lock_guard<std::mutex> guard(m_widgetsLocker);
+
+      std::cout << "[APP] Performing rendering (" << m_widgets.size() << " widgets)" << std::endl;
+
+      for (std::vector<SdlWidget*>::iterator widgetsIterator = m_widgets.begin() ;
+          widgetsIterator != m_widgets.end() ;
+          ++widgetsIterator)
+      {
+        SdlWidget* widget = *widgetsIterator;
+        // Draw this object (caching is handled by the object itself).
+        try {
+          SDL_Texture* texture = widget->draw();
+          const Boxf& render = widget->getRenderingArea();
+          SDL_Rect dstArea = render.toSDLRect();
+          drawTexture(texture, nullptr, &dstArea);
+        }
+        catch (const SdlException& e) {
+          std::cerr << "[APP] Caught sdl exception while rendering widget: " << std::endl << e.what() << std::endl;
+        }
+      }
+    }
+
+    inline
+    void
+    SdlApplication::drawTexture(SDL_Texture* texture, SDL_Rect* srcArea, SDL_Rect* dstArea) {
+      SDL_RenderCopy(m_renderer, texture, srcArea, dstArea);
     }
 
   }

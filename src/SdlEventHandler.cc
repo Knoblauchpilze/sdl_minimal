@@ -13,7 +13,8 @@ namespace sdl {
       m_locker(),
       m_executionThread(nullptr),
 
-      m_listeners()
+      m_listeners(),
+      m_listenersLocker()
     {}
 
     SdlEventHandler::~SdlEventHandler() {

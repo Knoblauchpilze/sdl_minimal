@@ -13,6 +13,7 @@ set (SOURCES
   SdlApplication.cc
   SdlEventHandler.cc
   SdlEventListener.cc
+  SdlWidget.cc
   )
 
 add_library (sdl_core SHARED
