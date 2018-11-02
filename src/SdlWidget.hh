@@ -2,8 +2,10 @@
 # define   SDLWIDGET_HH
 
 # include <mutex>
-# include "Box.hh"
+# include <memory>
+# include <unordered_map>
 # include <SDL2/SDL.h>
+# include "Box.hh"
 
 namespace sdl {
   namespace core {
@@ -35,6 +37,18 @@ namespace sdl {
         virtual SDL_Texture*
         draw(SDL_Renderer* renderer);
 
+        virtual void
+        addChild(std::shared_ptr<SdlWidget> child);
+
+        virtual void
+        removeChild(std::shared_ptr<SdlWidget> child);
+
+        virtual void
+        removeChild(const std::string& name);
+
+        unsigned
+        getChildCount() const noexcept;
+
       protected:
 
         // We assume that this widget is already locked when we enter this method.
@@ -44,12 +58,23 @@ namespace sdl {
         virtual SDL_Texture*
         createContentPrivate(SDL_Renderer* renderer) const;
 
+        virtual void
+        clearContentPrivate(SDL_Renderer* renderer, SDL_Texture* texture) const noexcept;
+
+        void
+        setParent(SdlWidget* parent);
+
       private:
 
         void
         clearTexture();
 
+        void
+        drawChild(SDL_Renderer* renderer, SdlWidget& child);
+
       private:
+
+        using WidgetMap = std::unordered_map<std::string, std::shared_ptr<SdlWidget>>;
 
         std::string m_name;
 
@@ -61,7 +86,11 @@ namespace sdl {
         bool m_dirty;
         SDL_Texture* m_content;
         std::mutex m_drawingLocker;
+
+        WidgetMap m_children;
     };
+
+    using SdlWidgetShPtr = std::shared_ptr<SdlWidget>;
 
   }
 }
