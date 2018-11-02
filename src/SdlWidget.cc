@@ -30,7 +30,6 @@ namespace sdl {
 
         clearTexture();
 
-
         m_content = createContentPrivate(renderer);
         clearContentPrivate(renderer, m_content);
 
@@ -51,6 +50,8 @@ namespace sdl {
         }
 
         SDL_SetRenderTarget(renderer, currentTarget);
+
+        m_dirty = false;
       }
 
       // Return the built-in texture.

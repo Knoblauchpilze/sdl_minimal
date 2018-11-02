@@ -9,6 +9,7 @@ namespace sdl {
 
     inline
     SdlWidget::~SdlWidget() {
+      std::lock_guard<std::mutex> guard(m_drawingLocker);
       clearTexture();
     }
 
@@ -103,10 +104,13 @@ namespace sdl {
     void
     SdlWidget::clearContentPrivate(SDL_Renderer* renderer, SDL_Texture* texture) const noexcept {
       SDL_Texture* currentTarget = SDL_GetRenderTarget(renderer);
+      SDL_Color currentDrawColor;
+      SDL_GetRenderDrawColor(renderer, &currentDrawColor.r, &currentDrawColor.g, &currentDrawColor.b, &currentDrawColor.a);
       SDL_SetRenderTarget(renderer, texture);
       SDL_SetRenderDrawColor(renderer, m_background.r, m_background.g, m_background.b, m_background.a);
       SDL_RenderClear(renderer);
       SDL_SetRenderTarget(renderer, currentTarget);
+      SDL_SetRenderDrawColor(renderer, currentDrawColor.r, currentDrawColor.g, currentDrawColor.b, currentDrawColor.a);
     }
 
     inline
@@ -119,7 +123,6 @@ namespace sdl {
     inline
     void
     SdlWidget::clearTexture() {
-      std::lock_guard<std::mutex> guard(m_drawingLocker);
       if (m_content != nullptr) {
         SDL_DestroyTexture(m_content);
       }
