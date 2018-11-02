@@ -15,8 +15,8 @@ namespace sdl {
 
         SdlWidget(const std::string& name,
                   const Boxf& area,
-                  const bool transparent = true,
-                  SdlWidget* parent = nullptr);
+                  SdlWidget* parent = nullptr,
+                  const SDL_Color& backgroundColor = SDL_Color{0, 0, 0, SDL_ALPHA_OPAQUE});
 
         virtual ~SdlWidget();
 
@@ -29,8 +29,25 @@ namespace sdl {
         void
         setRenderingArea(const Boxf& area) noexcept;
 
+        void
+        setBackgroundColor(const SDL_Color& color) noexcept;
+
         virtual SDL_Texture*
-        draw() = 0;
+        draw(SDL_Renderer* renderer);
+
+      protected:
+
+        // We assume that this widget is already locked when we enter this method.
+        virtual bool
+        hasChanged() const noexcept;
+
+        virtual SDL_Texture*
+        createContentPrivate(SDL_Renderer* renderer) const;
+
+      private:
+
+        void
+        clearTexture();
 
       private:
 
@@ -38,7 +55,12 @@ namespace sdl {
 
         SdlWidget* m_parent;
         Boxf m_area;
-        mutable std::mutex m_drawingLocker;
+        SDL_Color m_background;
+        mutable std::mutex m_propsLocker;
+
+        bool m_dirty;
+        SDL_Texture* m_content;
+        std::mutex m_drawingLocker;
     };
 
   }

@@ -169,7 +169,7 @@ namespace sdl {
         SdlWidget* widget = *widgetsIterator;
         // Draw this object (caching is handled by the object itself).
         try {
-          SDL_Texture* texture = widget->draw();
+          SDL_Texture* texture = widget->draw(m_renderer);
           const Boxf& render = widget->getRenderingArea();
           SDL_Rect dstArea = render.toSDLRect();
           drawTexture(texture, nullptr, &dstArea);
