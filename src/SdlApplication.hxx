@@ -86,26 +86,22 @@ namespace sdl {
 
     inline
     void
-    SdlApplication::addWidget(SdlWidget* widget) {
+    SdlApplication::addWidget(SdlWidgetShPtr widget) {
       if (widget == nullptr) {
         throw SdlException(std::string("Cannot add null widget"));
       }
       std::lock_guard<std::mutex> guard(m_widgetsLocker);
-      m_widgets.push_back(widget);
+      m_widgets[widget->getName()] = widget;
     }
 
     inline
     void
-    SdlApplication::removeWidget(SdlWidget* widget) {
+    SdlApplication::removeWidget(SdlWidgetShPtr widget) {
       if (widget == nullptr) {
         throw SdlException(std::string("Cannot remove null widget"));
       }
       std::lock_guard<std::mutex> guard(m_widgetsLocker);
-      std::remove_if(m_widgets.begin(), m_widgets.end(),
-        [&widget](SdlWidget* internalWidget) {
-          return &*(widget) == &(*internalWidget);
-        }
-      );
+      m_widgets.erase(widget->getName());
     }
 
     inline
@@ -162,16 +158,17 @@ namespace sdl {
 
       std::cout << "[APP] Performing rendering (" << m_widgets.size() << " widgets)" << std::endl;
 
-      for (std::vector<SdlWidget*>::iterator widgetsIterator = m_widgets.begin() ;
+      for (std::unordered_map<std::string, SdlWidgetShPtr>::iterator widgetsIterator = m_widgets.begin() ;
           widgetsIterator != m_widgets.end() ;
           ++widgetsIterator)
       {
-        SdlWidget* widget = *widgetsIterator;
+        SdlWidgetShPtr widget = widgetsIterator->second;
         // Draw this object (caching is handled by the object itself).
         try {
           SDL_Texture* texture = widget->draw(m_renderer);
           const Boxf& render = widget->getRenderingArea();
           SDL_Rect dstArea = render.toSDLRect();
+
           drawTexture(texture, nullptr, &dstArea);
         }
         catch (const SdlException& e) {

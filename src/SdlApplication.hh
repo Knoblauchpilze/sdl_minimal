@@ -1,9 +1,9 @@
 #ifndef    SDLAPPLICATION_HH
 # define   SDLAPPLICATION_HH
 
-# include <memory>
-# include <vector>
 # include <mutex>
+# include <memory>
+# include <unordered_map>
 # include <SDL2/SDL.h>
 # include "SdlWidget.hh"
 # include "SdlEventHandler.hh"
@@ -44,10 +44,10 @@ namespace sdl {
         onQuitEvent(const SDL_QuitEvent& event) override;
 
         void
-        addWidget(SdlWidget* widget);
+        addWidget(SdlWidgetShPtr widget);
 
         void
-        removeWidget(SdlWidget* widget);
+        removeWidget(SdlWidgetShPtr widget);
 
       private:
 
@@ -88,7 +88,7 @@ namespace sdl {
         bool m_renderingRunning;
         std::mutex m_locker;
 
-        std::vector<SdlWidget*> m_widgets;
+        std::unordered_map<std::string, SdlWidgetShPtr> m_widgets;
         std::mutex m_widgetsLocker;
     };
 
