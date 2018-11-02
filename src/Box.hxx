@@ -197,7 +197,7 @@ namespace sdl {
     Box<CoordinateType>::toSDLRect() const noexcept {
       return SDL_Rect{
         static_cast<int>(getLeftBound()),
-        static_cast<int>(getTopBound()),
+        static_cast<int>(getBottomBound()),
         static_cast<int>(w()),
         static_cast<int>(h())
       };
