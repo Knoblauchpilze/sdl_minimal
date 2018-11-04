@@ -2,7 +2,7 @@
 # define   SDLAPPLICATION_HXX
 
 # include <iostream>
-# include "SdlException.hh"
+# include <sdl_core/SdlException.hh>
 # include "SdlApplication.hh"
 
 namespace sdl {

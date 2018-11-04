@@ -3,12 +3,10 @@
 # include <SDL2/SDL_ttf.h>
 
 # include "SdlApplication.hh"
-# include "SdlException.hh"
+# include <sdl_core/SdlException.hh>
 
-int main(int argc, char* argv[])
-{
+int main(int argc, char* argv[]) {
   // Run the application.
-
   if (SDL_Init(SDL_INIT_VIDEO) != 0) {
     std::cerr << "[MAIN] Could not initialize sdl video mode (err: \"" << SDL_GetError() << "\")" << std::endl;
     return EXIT_FAILURE;

@@ -12,7 +12,6 @@ set (SOURCES
   SdlApplication.cc
   SdlEventHandler.cc
   SdlEventListener.cc
-  SdlWidget.cc
   )
 
 add_library (sdl_minimal SHARED
@@ -26,6 +25,8 @@ set(SDL_MINIMAL_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}" PARENT_SCOPE)
 target_link_libraries(sdl_minimal
   ${SDL2_LIBRARY}
   ${SDL2_TTF_LIBRARIES}
+  sdl_core
+  sdl_graphic
   )
 
 target_include_directories (sdl_minimal PUBLIC
@@ -33,4 +34,3 @@ target_include_directories (sdl_minimal PUBLIC
   ${SDL2_INCLUDE_DIR}
   ${SDL2_TTF_INCLUDE_DIRS}
   )
-

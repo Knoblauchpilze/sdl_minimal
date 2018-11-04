@@ -5,7 +5,7 @@
 # include <memory>
 # include <unordered_map>
 # include <SDL2/SDL.h>
-# include "SdlWidget.hh"
+# include <sdl_core/SdlWidget.hh>
 # include "SdlEventHandler.hh"
 # include "SdlEventListener.hh"
 

@@ -1,7 +1,7 @@
 #ifndef    SDLEVENTHANDLER_HXX
 # define   SDLEVENTHANDLER_HXX
 
-# include "SdlException.hh"
+# include <sdl_core/SdlException.hh>
 # include "SdlEventHandler.hh"
 
 namespace sdl {
