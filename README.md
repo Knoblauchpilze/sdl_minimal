@@ -5,7 +5,7 @@ Contains base classes to make a graphic application with SDL 2.0, supporting a m
 
 # Installation
 
-- First install https://github.com/Knoblauchpilze/graphic_library and https://github.com/Knoblauchpilze/sdl_core
+- First install https://github.com/Knoblauchpilze/graphic_library, https://github.com/Knoblauchpilze/sdl_core and https://github.com/Knoblauchpilze/sdl_app_core
 - Clone the repo: `git clone git@github.com:Knoblauchpilze/sdl_minimal.git`
 - Go to the project's directory `cd ~/path/to/the/repo`
 - Compile: `make r`
