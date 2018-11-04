@@ -11,7 +11,7 @@ set (CMAKE_VERBOSE_MAKEFILE ON)
 
 set (CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMakeModules")
 
-project(sdlminimal)
+project(sdl_minimal_executable)
 
 add_subdirectory(src)
 
@@ -19,13 +19,13 @@ set (SOURCES
   main.cpp
   )
 
-add_executable(sdlminimal
+add_executable(sdl_minimal_executable
   ${SOURCES}
   )
 
-target_include_directories (sdlminimal PRIVATE
+target_include_directories (sdl_minimal_executable PRIVATE
   )
 
-target_link_libraries(sdlminimal
-  sdl_core
+target_link_libraries(sdl_minimal_executable
+  sdl_minimal
   )

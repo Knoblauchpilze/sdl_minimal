@@ -1,4 +1,4 @@
-project (sdl_core)
+project (sdl_minimal)
 
 set (CMAKE_CXX_STANDARD 14)
 
@@ -15,20 +15,20 @@ set (SOURCES
   SdlWidget.cc
   )
 
-add_library (sdl_core SHARED
+add_library (sdl_minimal SHARED
   ${SOURCES}
   ${SDL2_INCLUDE_DIR}
   ${SDL2_TTF_INCLUDE_DIRS}
   )
 
-set(SDL_CORE_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}" PARENT_SCOPE)
+set(SDL_MINIMAL_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}" PARENT_SCOPE)
 
-target_link_libraries(sdl_core
+target_link_libraries(sdl_minimal
   ${SDL2_LIBRARY}
   ${SDL2_TTF_LIBRARIES}
   )
 
-target_include_directories (sdl_core PUBLIC
+target_include_directories (sdl_minimal PUBLIC
   ${CMAKE_CURRENT_SOURCE_DIR}
   ${SDL2_INCLUDE_DIR}
   ${SDL2_TTF_INCLUDE_DIRS}

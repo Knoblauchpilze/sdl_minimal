@@ -2,4 +2,4 @@
 
 CURR_DIR=$(dirname $0)
 
-gdb --args ./bin/sdlminimal $(cat data/config/local)
+gdb --args ./bin/sdl_minimal_executable $(cat data/config/local)
