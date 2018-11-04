@@ -4,7 +4,6 @@
 
 # include "SdlApplication.hh"
 # include "SdlException.hh"
-# include "FontException.hh"
 
 int main(int argc, char* argv[])
 {
@@ -24,12 +23,19 @@ int main(int argc, char* argv[])
       60.0f,
       30.0f
     );
+
+    sdl::core::SdlWidgetShPtr widget = std::make_shared<sdl::core::SdlWidget>(
+      std::string("Best widget in da place"),
+      sdl::core::Boxf(101.0f, 100.0f, 200.0f, 20.0f),
+      nullptr,
+      SDL_Color{0, 128, 0, SDL_ALPHA_OPAQUE}
+    );
+
+    app->addWidget(widget);
+
     app->run();
 
     std::cout << "[MAIN] App stopped" << std::endl;
-  }
-  catch (const sdl::core::FontException& e) {
-    std::cerr << "[MAIN] Caught exception:" << std::endl << e.what() << std::endl;
   }
   catch (const sdl::core::SdlException& e) {
     std::cerr << "[MAIN] Caught internal exception:" << std::endl << e.what() << std::endl;
