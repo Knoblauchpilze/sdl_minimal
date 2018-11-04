@@ -2,8 +2,9 @@
 # include <iostream>
 # include <SDL2/SDL_ttf.h>
 
-# include "SdlApplication.hh"
+# include <sdl_app_core/SdlApplication.hh>
 # include <sdl_core/SdlException.hh>
+# include "GenericWidget.hh"
 
 int main(int argc, char* argv[]) {
   // Run the application.
@@ -22,10 +23,9 @@ int main(int argc, char* argv[]) {
       30.0f
     );
 
-    sdl::core::SdlWidgetShPtr widget = std::make_shared<sdl::core::SdlWidget>(
+    sdl::minimal::GenericWidgetShPtr widget = std::make_shared<sdl::minimal::GenericWidget>(
       std::string("Best widget in da place"),
-      sdl::core::Boxf(101.0f, 100.0f, 200.0f, 20.0f),
-      nullptr,
+      sdl::core::Boxf(320.0f, 240.0f, 200.0f, 200.0f),
       SDL_Color{0, 128, 0, SDL_ALPHA_OPAQUE}
     );
 

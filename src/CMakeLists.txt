@@ -1,4 +1,4 @@
-project (sdl_minimal)
+project (sdl_minimal_dummy)
 
 set (CMAKE_CXX_STANDARD 14)
 
@@ -9,28 +9,22 @@ find_package (SDL2 REQUIRED)
 find_package (SDL2_ttf REQUIRED)
 
 set (SOURCES
-  SdlApplication.cc
-  SdlEventHandler.cc
-  SdlEventListener.cc
+  GenericWidget.cc
   )
 
-add_library (sdl_minimal SHARED
+add_library (sdl_minimal_dummy SHARED
   ${SOURCES}
-  ${SDL2_INCLUDE_DIR}
-  ${SDL2_TTF_INCLUDE_DIRS}
   )
 
-set(SDL_MINIMAL_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}" PARENT_SCOPE)
+set(SDL_MINIMAL_DUMMY_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}" PARENT_SCOPE)
 
-target_link_libraries(sdl_minimal
+target_link_libraries(sdl_minimal_dummy
   ${SDL2_LIBRARY}
   ${SDL2_TTF_LIBRARIES}
   sdl_core
   sdl_graphic
   )
 
-target_include_directories (sdl_minimal PUBLIC
+target_include_directories (sdl_minimal_dummy PUBLIC
   ${CMAKE_CURRENT_SOURCE_DIR}
-  ${SDL2_INCLUDE_DIR}
-  ${SDL2_TTF_INCLUDE_DIRS}
   )
