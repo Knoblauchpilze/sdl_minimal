@@ -32,6 +32,7 @@ target_include_directories (sdl_minimal_executable PRIVATE
 target_link_libraries(sdl_minimal_executable
   core_utils
   sdl_engine
+  sdl_core
   sdl_graphic
   sdl_app_core
   sdl_minimal_dummy
