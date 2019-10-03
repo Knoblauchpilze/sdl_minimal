@@ -1,51 +1,65 @@
 
-# include <iostream>
-# include <SDL2/SDL_ttf.h>
+# include <core_utils/StdLogger.hh>
+# include <core_utils/LoggerLocator.hh>
 
 # include <sdl_app_core/SdlApplication.hh>
-# include <sdl_core/SdlException.hh>
-# include "GenericWidget.hh"
+# include <core_utils/CoreException.hh>
+# include "Content.hh"
 
 int main(int argc, char* argv[]) {
-  // Run the application.
-  if (SDL_Init(SDL_INIT_VIDEO) != 0) {
-    std::cerr << "[MAIN] Could not initialize sdl video mode (err: \"" << SDL_GetError() << "\")" << std::endl;
-    return EXIT_FAILURE;
-  }
+  // Create the logger.
+  utils::StdLogger logger;
+  utils::LoggerLocator::provide(&logger);
+
+  const std::string service("minimal");
+  const std::string module("main");
+
+  // Create the application window parameters.
+  const std::string appName = std::string("sdl_minimal");
+  const std::string appTitle = std::string("Yes you're doing some serious hacking mate");
+  const std::string appIcon = std::string("data/img/65px-Stop_hand.BMP");
+  const utils::Sizei size(640, 480);
+
+  sdl::app::SdlApplicationShPtr app = nullptr;
 
   try {
-    sdl::core::BasicSdlWindowShPtr app = std::make_shared<sdl::core::SdlApplication>(
-      std::string("This is SPARTA !"),
-      std::string("data/img/65px-Stop_hand.BMP"),
-      640,
-      480,
-      60.0f,
-      30.0f
-    );
+    app = std::make_shared<sdl::app::SdlApplication>(appName, appTitle, appIcon, size, true, 50.0f, 60.0f);
 
-    sdl::minimal::GenericWidgetShPtr widget = std::make_shared<sdl::minimal::GenericWidget>(
-      std::string("Best widget in da place"),
-      sdl::core::Boxf(320.0f, 240.0f, 200.0f, 200.0f),
-      SDL_Color{0, 128, 0, SDL_ALPHA_OPAQUE}
-    );
+    // `root_widget`
+    sdl::minimal::Content* root_widget = new sdl::minimal::Content(std::string("root_widget"));
+    app->setCentralWidget(root_widget);
 
-    app->addWidget(widget);
-
+    // Run it.
     app->run();
+  }
+  catch (const utils::CoreException& e) {
+    utils::LoggerLocator::getLogger().logMessage(
+      utils::Level::Critical,
+      std::string("Caught internal exception while setting up application"),
+      module,
+      service,
+      e.what()
+    );
+  }
+  catch (const std::exception& e) {
+    utils::LoggerLocator::getLogger().logMessage(
+      utils::Level::Critical,
+      std::string("Caught exception while setting up application"),
+      module,
+      service,
+      e.what()
+    );
+  }
+  catch (...) {
+    utils::LoggerLocator::getLogger().logMessage(
+      utils::Level::Critical,
+      std::string("Unexpected error while setting up application"),
+      module,
+      service
+    );
+  }
 
-    std::cout << "[MAIN] App stopped" << std::endl;
-  }
-  catch (const sdl::core::SdlException& e) {
-    std::cerr << "[MAIN] Caught internal exception:" << std::endl << e.what() << std::endl;
-  }
-
-  // Unload the sdl and the ttf libs if needed.
-  if (TTF_WasInit()) {
-    TTF_Quit();
-  }
-  if (SDL_WasInit(0u)) {
-    SDL_Quit();
-  }
+  app.reset();
 
   // All is good.
   return EXIT_SUCCESS;
