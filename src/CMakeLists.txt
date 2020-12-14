@@ -13,7 +13,7 @@ add_library (sdl_minimal_dummy SHARED
   ${SOURCES}
   )
 
-set(SDL_MINIMAL_DUMMY_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}" PARENT_SCOPE)
+set (SDL_MINIMAL_DUMMY_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}" PARENT_SCOPE)
 
 target_link_libraries(sdl_minimal_dummy
   sdl_core
