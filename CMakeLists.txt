@@ -11,7 +11,7 @@ add_compile_options (-Wall -Wextra -Werror -pedantic)
 
 set (CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMakeModules")
 
-project(sdl_minimal_executable)
+project (sdl_minimal_executable)
 
 add_executable (sdl_minimal_executable)
 
