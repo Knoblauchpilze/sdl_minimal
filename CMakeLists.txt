@@ -27,7 +27,7 @@ target_sources (sdl_minimal_executable PRIVATE
 	)
 
 target_include_directories (sdl_minimal_executable PRIVATE
-  )
+	)
 
 target_link_libraries(sdl_minimal_executable
 	core_utils
