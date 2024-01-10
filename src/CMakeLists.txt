@@ -1,24 +1,16 @@
-project (sdl_minimal_dummy)
 
-set (CMAKE_CXX_STANDARD 14)
+add_library (sdl_minimal_lib SHARED)
 
-#set (CMAKE_VERBOSE_MAKEFILE ON)
 set (CMAKE_POSITION_INDEPENDENT_CODE ON)
 
-set (SOURCES
-  Content.cc
-  )
+target_include_directories (sdl_minimal_lib PUBLIC
+	${CMAKE_CURRENT_SOURCE_DIR}
+	)
 
-add_library (sdl_minimal_dummy SHARED
-  ${SOURCES}
-  )
+target_sources (sdl_minimal_lib PRIVATE
+	${CMAKE_CURRENT_SOURCE_DIR}/Content.cc
+	)
 
-set (SDL_MINIMAL_DUMMY_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}" PARENT_SCOPE)
-
-target_link_libraries(sdl_minimal_dummy
-  sdl_core
-  )
-
-target_include_directories (sdl_minimal_dummy PUBLIC
-  ${CMAKE_CURRENT_SOURCE_DIR}
-  )
+target_link_libraries(sdl_minimal_lib
+	sdl_core
+	)

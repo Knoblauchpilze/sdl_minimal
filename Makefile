@@ -16,7 +16,6 @@ copyRelease:
 copyDebug:
 	rsync -avH build/Debug/lib build/Debug/bin sandbox/
 
-
 copy:
 	mkdir -p sandbox/
 	rsync -avH data sandbox/
